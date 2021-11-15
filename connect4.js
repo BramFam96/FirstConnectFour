@@ -15,7 +15,7 @@ let board = [] // array of rows, each row is array of cells  (board[y][x])
  *   board = array of rows, each row is array of cells  (board[y][x])
  */
 
-const makeBoardLogic = () => {
+const makeBoardStructure = () => {
 	for (let y = 0; y < HEIGHT; y++) {
 		board.push(Array.from({ length: WIDTH }))
 	}
@@ -27,39 +27,41 @@ const makeHtmlBoard = () => {
 	const board = document.getElementById('board')
 
 	// make column tops (clickable area for adding a piece to that column)
+	//start by making a new top row;
 	const top = document.createElement('tr')
 	top.setAttribute('id', 'column-top')
 	top.addEventListener('click', handleClick)
-
+	//iterate across the new row, and append cells;
 	for (let x = 0; x < WIDTH; x++) {
 		const headCell = document.createElement('td')
 		headCell.setAttribute('id', x)
 		top.append(headCell)
 	}
-
+	//append the new row to our board;
 	board.append(top)
 
-	// make main part of board
+	// make a row for each column defined in height;
 	for (let y = 0; y < HEIGHT; y++) {
 		const row = document.createElement('tr')
-
+		//make a cell for each new row;
 		for (let x = 0; x < WIDTH; x++) {
 			const cell = document.createElement('td')
+			//confused by ${y}-${x} -> don't understand how ids are unique with this set up
 			cell.setAttribute('id', `${y}-${x}`)
-
+			//append the cells to each row;
 			row.append(cell)
 		}
-
+		//apend each row to the board (after our column toppers)
 		board.append(row)
 	}
 }
 
-/** findSpotForCol: given column x, return top empty y (null if filled) */
+/** findTheRighSpot: given column x, return top empty y (null if filled) */
 
-const findTheRightCol = (x) => {
+const findTheRightSpot = (x) => {
 	//starts at bottom and iterates up;
-	//use the js board;
 	for (let y = HEIGHT - 1; y >= 0; y--) {
+		//returns the first cell where y is unoccupied;
 		if (!board[y][x]) {
 			return y
 		}
@@ -70,11 +72,12 @@ const findTheRightCol = (x) => {
 /** placeInTable: update DOM to place piece into HTML table of board */
 
 const placeInTable = (y, x) => {
+	//first we structure game pieces
 	const piece = document.createElement('div')
 	piece.classList.add('piece')
 	piece.classList.add(`p${currPlayer}`)
 	piece.style.top = -50 * (y + 2)
-
+	//Then we select the place to append:
 	const spot = document.getElementById(`${y}-${x}`)
 	spot.append(piece)
 }
@@ -99,9 +102,9 @@ const endGame = (msg) => {
 const handleClick = (evt) => {
 	// get x from ID of clicked cell
 	const x = +evt.target.id
-
+	console.log(x)
 	// get next spot in column (if none, ignore click)
-	const y = findTheRightCol(x)
+	const y = findTheRightSpot(x)
 	if (y === null) {
 		return
 	}
@@ -175,5 +178,5 @@ const checkForWin = () => {
 	}
 }
 
-makeBoardLogic()
+makeBoardStructure()
 makeHtmlBoard()
