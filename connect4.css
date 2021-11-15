@@ -1,7 +1,13 @@
 /* game board table */
 
-#game > * {
-	width: 50%;
+#game {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+#board {
+	margin-top: 10%;
+	transform: scale(1.5);
 }
 #board td {
 	width: 50px;
@@ -34,7 +40,6 @@
 
 #column-top td:hover {
 	border: solid 1px black;
-	transform: scale(0.75);
 	background-color: #666;
 	border-radius: 50%;
 }

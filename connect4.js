@@ -105,6 +105,7 @@ const handleClick = (evt) => {
 	console.log(x)
 	// get next spot in column (if none, ignore click)
 	const y = findTheRightSpot(x)
+	//if row is occupied or spot is invalid we should return nothing;
 	if (y === null) {
 		return
 	}
@@ -140,7 +141,7 @@ const checkForWin = () => {
 				y >= 0 && y < HEIGHT && x >= 0 && x < WIDTH && board[y][x] === currPlayer
 		)
 	}
-
+	//start at the top iterate from left to right:
 	for (let y = 0; y < HEIGHT; y++) {
 		for (let x = 0; x < WIDTH; x++) {
 			// get "check list" of 4 cells (starting here) for each of the different
