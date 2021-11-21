@@ -1,10 +1,4 @@
-/** Connect Four
- *
- * Player 1 and 2 alternate turns. On each turn, a piece is dropped down a
- * column until a player gets four-in-a-row (horiz, vert, or diag) or until
- * board fills (tie)
- */
-
+//global vars:
 const WIDTH = 7
 const HEIGHT = 6
 
@@ -34,7 +28,11 @@ const makeHtmlBoard = () => {
 	//iterate across the new row, and append cells;
 	for (let x = 0; x < WIDTH; x++) {
 		const headCell = document.createElement('td')
+
+		/////
 		headCell.setAttribute('id', x)
+		///
+
 		top.append(headCell)
 	}
 	//append the new row to our board;
@@ -48,6 +46,7 @@ const makeHtmlBoard = () => {
 			const cell = document.createElement('td')
 			//confused by ${y}-${x} -> don't understand how ids are unique with this set up
 			cell.setAttribute('id', `${y}-${x}`)
+
 			//append the cells to each row;
 			row.append(cell)
 		}
@@ -69,15 +68,16 @@ const findTheRightSpot = (x) => {
 	return null
 }
 
-/** placeInTable: update DOM to place piece into HTML table of board */
+/** placeInTable: update DOM to place piece into HTML table*/
 
 const placeInTable = (y, x) => {
 	//first we structure game pieces
 	const piece = document.createElement('div')
 	piece.classList.add('piece')
 	piece.classList.add(`p${currPlayer}`)
-	piece.style.top = -50 * (y + 2)
+
 	//Then we select the place to append:
+
 	const spot = document.getElementById(`${y}-${x}`)
 	spot.append(piece)
 }
@@ -95,6 +95,7 @@ const endGame = (msg) => {
 	//delete the dots
 	document.querySelectorAll('.piece').forEach((el) => el.remove())
 	//Error, checkForWin still returns true and prevents the match from restarting
+	//checkForWin() = false;
 }
 
 /** handleClick: handle click of column top to play piece */
@@ -102,7 +103,7 @@ const endGame = (msg) => {
 const handleClick = (evt) => {
 	// get x from ID of clicked cell
 	const x = +evt.target.id
-	console.log(x)
+
 	// get next spot in column (if none, ignore click)
 	const y = findTheRightSpot(x)
 	//if row is occupied or spot is invalid we should return nothing;
